@@ -6,6 +6,7 @@
 package com.kredditme.Services;
 
 import com.kredditme.Models.CrowdFunding;
+import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
 import com.kredditme.abstractentities.CustomPredicate;
 import com.kredditme.interfaces.CrowdFundingInterface;
@@ -28,7 +29,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
     private static String CROWDFUNDING_PAYMENT_LINK = "https://kreddit.me/pay/crowdfunding/";
 
     @Override
-    public Response create(CrowdFunding crowdFunding) {
+    public Response create(CrowdFundingCreation crowdFunding) {
         
         Response resp = new Response();
         String link = CROWDFUNDING_PAYMENT_LINK + IppmsUtils.generateUniquePayRef();

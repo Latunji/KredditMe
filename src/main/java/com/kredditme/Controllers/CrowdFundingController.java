@@ -6,6 +6,7 @@
 package com.kredditme.Controllers;
 
 import com.kredditme.Models.CrowdFunding;
+import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
 import com.kredditme.Models.Wishlist;
 import com.kredditme.Services.CrowdFundingService;
@@ -32,7 +33,7 @@ public class CrowdFundingController {
    
     
     @RequestMapping(value = "/crowdFunding/create", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Response> createCrowdFunding(@RequestBody CrowdFunding crowdfunding) {
+    public ResponseEntity<Response> createCrowdFunding(@RequestBody CrowdFundingCreation crowdfunding) {
         return new ResponseEntity<>(crowdFundingService.create(crowdfunding), HttpStatus.OK);
     }
     
