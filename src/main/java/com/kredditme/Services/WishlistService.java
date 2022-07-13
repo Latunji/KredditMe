@@ -21,6 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.kredditme.interfaces.WishlistInterface;
+import com.kredditme.utilities.RestCall;
+import java.io.IOException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -31,13 +35,30 @@ public class WishlistService implements WishlistInterface {
 
     @Autowired
     GenericService genericService;
+    
+    @Autowired
+    RestCall restCall;
 
     private static String WISHLIST_PAYMENT_LINK = "https://kreddit.me/pay/wishlist/";
 
     @Override
-    public Response createItem(String name, String icon, Double amount) {
+    public Response createItem(String name, String icon, Double amount, String token) {
         Item item = new Item();
         Response resp = new Response();
+        
+        JSONObject js = new JSONObject();
+        try {
+            js = new JSONObject(restCall.authenticate(token));
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(IppmsUtils.isNull(js)){
+            resp.setResponseCode("01");
+            resp.setResponseMessage("Authentication Failed");
+            return resp;
+        }
+        
         try {
             item = this.genericService.loadObjectWithSingleCondition(Item.class, new CustomPredicate("name", name));
         } catch (IllegalAccessException | InstantiationException ex) {
@@ -75,9 +96,22 @@ public class WishlistService implements WishlistInterface {
     }
 
     @Override
-    public WishlistResponse createWishlist(WishlistPojo wishlist) {
+    public WishlistResponse createWishlist(WishlistPojo wishlist, String token) {
         String link = WISHLIST_PAYMENT_LINK + IppmsUtils.generateUniquePayRef();
         WishlistResponse resp = new WishlistResponse();
+        
+        JSONObject js = new JSONObject();
+        try {
+            js = new JSONObject(restCall.authenticate(token));
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(IppmsUtils.isNull(js)){
+            resp.setResponseCode("01");
+            resp.setResponseMessage("Authentication Failed");
+            return resp;
+        }
         try {
             for (int i = 0; i < wishlist.getItemId().size(); i++) {
                 Long w;
@@ -102,8 +136,19 @@ public class WishlistService implements WishlistInterface {
     }
 
     @Override
-    public List<Wishlist> getWishlistByPaymentLink(String link) {
+    public List<Wishlist> getWishlistByPaymentLink(String link, String token) {
         List<Wishlist> wish = new ArrayList<>();
+        
+        JSONObject js = new JSONObject();
+        try {
+            js = new JSONObject(restCall.authenticate(token));
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if(IppmsUtils.isNull(js)){
+            return wish;
+        }
         
         wish = this.genericService.loadAllObjectsWithSingleCondition(Wishlist.class, 
                 new CustomPredicate("paymentLink", link), "name");

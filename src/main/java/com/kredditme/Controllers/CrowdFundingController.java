@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,14 +34,14 @@ public class CrowdFundingController {
    
     
     @RequestMapping(value = "/crowdFunding/create", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Response> createCrowdFunding(@RequestBody CrowdFundingCreation crowdfunding) {
-        return new ResponseEntity<>(crowdFundingService.create(crowdfunding), HttpStatus.OK);
+    public ResponseEntity<Response> createCrowdFunding(@RequestHeader("Authorization") String token, @RequestBody CrowdFundingCreation crowdfunding) {
+        return new ResponseEntity<>(crowdFundingService.create(crowdfunding, token), HttpStatus.OK);
     }
     
     
     @RequestMapping(value = "/crowdFunding/getByPaymentLink", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestParam("paymentLink") String link) {
-        return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link), HttpStatus.OK);
+    public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestParam("paymentLink") String link) {
+        return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link, token), HttpStatus.OK);
     }
     
 }
