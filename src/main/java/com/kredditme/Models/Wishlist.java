@@ -52,4 +52,7 @@ public class Wishlist implements Serializable{
     @Column(name = "paid")
     private boolean paid;
     
+    @Column(name = "self")
+    private boolean self;
+    
 }

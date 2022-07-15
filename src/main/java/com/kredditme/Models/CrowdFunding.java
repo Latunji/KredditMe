@@ -59,5 +59,8 @@ public class CrowdFunding implements Serializable {
     @Column(name = "amount", columnDefinition = "numeric(15,2) default '0.00'")
     private double amount;
     
+    @Column(name = "self")
+    private boolean self;
+    
     
 }

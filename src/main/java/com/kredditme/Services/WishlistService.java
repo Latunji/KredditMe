@@ -120,6 +120,7 @@ public class WishlistService implements WishlistInterface {
                 wish.setItem(this.genericService.loadObjectById(Item.class, w));
                 wish.setUserId(wishlist.getUserId());
                 wish.setPaymentLink(link);
+                wish.setSelf(wishlist.isSelf());
                 this.genericService.saveObject(wish);
 
                 resp.setResponseCode("00");

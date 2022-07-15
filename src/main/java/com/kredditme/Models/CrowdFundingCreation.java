@@ -32,4 +32,6 @@ public class CrowdFundingCreation {
     
     private double amount;
     
+    private boolean self;
+    
 }
