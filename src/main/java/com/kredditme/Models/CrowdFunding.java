@@ -62,5 +62,14 @@ public class CrowdFunding implements Serializable {
     @Column(name = "self")
     private boolean self;
     
+    @Column(name = "account_number")
+    private String accountNumber;
+    
+    @Column(name = "bank_name")
+    private String bankName;
+    
+    @Column(name = "bank_account_name")
+    private String bankAccountName;
+    
     
 }

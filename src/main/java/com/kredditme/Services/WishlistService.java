@@ -121,6 +121,9 @@ public class WishlistService implements WishlistInterface {
                 wish.setUserId(wishlist.getUserId());
                 wish.setPaymentLink(link);
                 wish.setSelf(wishlist.isSelf());
+                wish.setAccountNumber(wishlist.getAccountNumber());
+                wish.setBankAccountName(wishlist.getBankAccountName());
+                wish.setBankName(wishlist.getBankName());
                 this.genericService.saveObject(wish);
 
                 resp.setResponseCode("00");

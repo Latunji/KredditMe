@@ -21,4 +21,7 @@ public class WishlistPojo {
     private List itemId;
     private Long userId;
     private boolean self;
+    private String accountNumber;
+    private String bankName;
+    private String bankAccountName;
 }

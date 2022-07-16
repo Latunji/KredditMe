@@ -61,6 +61,9 @@ public class CrowdFundingService implements CrowdFundingInterface {
         cFunding.setUserId(crowdFunding.getUserId());
         cFunding.setPaymentLink(link);
         cFunding.setSelf(crowdFunding.isSelf());
+        cFunding.setAccountNumber(crowdFunding.getAccountNumber());
+        cFunding.setBankAccountName(crowdFunding.getBankAccountName());
+        cFunding.setBankName(crowdFunding.getBankName());
         
         
         if(IppmsUtils.isNotNull(crowdFunding.getImage())){

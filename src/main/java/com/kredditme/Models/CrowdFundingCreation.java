@@ -34,4 +34,10 @@ public class CrowdFundingCreation {
     
     private boolean self;
     
+    private String accountNumber;
+    
+    private String bankName;
+    
+    private String bankAccountName;
+    
 }
