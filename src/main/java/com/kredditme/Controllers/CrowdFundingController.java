@@ -35,14 +35,14 @@ public class CrowdFundingController {
     @Autowired
     CrowdFundingService crowdFundingService;
    
-    @CrossOrigin
-    @RequestMapping(value = "/crowdFunding/create", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/crowdFunding/create", method = RequestMethod.POST)
     public ResponseEntity<CrowdFundingResponsePojo> createCrowdFunding(@RequestHeader("Authorization") String token, @RequestBody CrowdFundingCreation crowdfunding) {
         return new ResponseEntity<>(crowdFundingService.create(crowdfunding, token), HttpStatus.OK);
     }
     
-    @CrossOrigin
-    @RequestMapping(value = "/crowdFunding/getByPaymentLink", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @CrossOrigin(origins = "http://localhost:3000")
+    @RequestMapping(value = "/crowdFunding/getByPaymentLink", method = RequestMethod.POST)
     public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestBody PaymentLinkDto link) {
         return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link.getPaymentLink(), token), HttpStatus.OK);
     }
