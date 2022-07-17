@@ -40,13 +40,13 @@ public class CrowdFundingController {
     @Autowired
     CrowdFundingService crowdFundingService;
    
-    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CrowdFundingResponsePojo> createCrowdFunding(@RequestHeader("Authorization") String token, @RequestBody CrowdFundingCreation crowdfunding) {
         return new ResponseEntity<>(crowdFundingService.create(crowdfunding, token), HttpStatus.OK);
     }
     
    
-    @PostMapping(value = "/getByPaymentLink", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getByPaymentLink", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestBody PaymentLinkDto link) {
         return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link.getPaymentLink(), token), HttpStatus.OK);
     }
