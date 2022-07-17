@@ -47,8 +47,10 @@ public class WishlistService implements WishlistInterface {
         Response resp = new Response();
         
         JSONObject js = new JSONObject();
+        JSONObject body = new JSONObject();
         try {
-            js = new JSONObject(restCall.authenticate(token));
+            body.put("token", token);
+            js = new JSONObject(restCall.executeRequest(body));
         } catch (JSONException | IOException ex) {
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -101,8 +103,10 @@ public class WishlistService implements WishlistInterface {
         WishlistResponse resp = new WishlistResponse();
         
         JSONObject js = new JSONObject();
+        JSONObject body = new JSONObject();
         try {
-            js = new JSONObject(restCall.authenticate(token));
+            body.put("token", token);
+            js = new JSONObject(restCall.executeRequest(body));
         } catch (JSONException | IOException ex) {
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -144,8 +148,10 @@ public class WishlistService implements WishlistInterface {
         List<Wishlist> wish = new ArrayList<>();
         
         JSONObject js = new JSONObject();
+        JSONObject body = new JSONObject();
         try {
-            js = new JSONObject(restCall.authenticate(token));
+            body.put("token", token);
+            js = new JSONObject(restCall.executeRequest(body));
         } catch (JSONException | IOException ex) {
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
         }

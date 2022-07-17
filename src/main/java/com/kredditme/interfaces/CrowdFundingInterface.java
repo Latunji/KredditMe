@@ -8,6 +8,7 @@ package com.kredditme.interfaces;
 import com.kredditme.Models.CrowdFunding;
 import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
+import com.kredditme.pojo.CrowdFundingResponsePojo;
 
 /**
  *
@@ -15,7 +16,7 @@ import com.kredditme.Models.Response;
  */
 public interface CrowdFundingInterface {
     
-    Response create(CrowdFundingCreation crowdFunding, String token);
+    CrowdFundingResponsePojo create(CrowdFundingCreation crowdFunding, String token);
     
     CrowdFunding getCrowdFundingByPaymentLink(String paymentLink, String token);
 }

@@ -10,6 +10,8 @@ import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
 import com.kredditme.Models.Wishlist;
 import com.kredditme.Services.CrowdFundingService;
+import com.kredditme.pojo.CrowdFundingResponsePojo;
+import com.kredditme.pojo.PaymentLinkDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,14 +36,14 @@ public class CrowdFundingController {
    
     
     @RequestMapping(value = "/crowdFunding/create", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Response> createCrowdFunding(@RequestHeader("Authorization") String token, @RequestBody CrowdFundingCreation crowdfunding) {
+    public ResponseEntity<CrowdFundingResponsePojo> createCrowdFunding(@RequestHeader("Authorization") String token, @RequestBody CrowdFundingCreation crowdfunding) {
         return new ResponseEntity<>(crowdFundingService.create(crowdfunding, token), HttpStatus.OK);
     }
     
     
     @RequestMapping(value = "/crowdFunding/getByPaymentLink", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestParam("paymentLink") String link) {
-        return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link, token), HttpStatus.OK);
+    public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestBody PaymentLinkDto link) {
+        return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link.getPaymentLink(), token), HttpStatus.OK);
     }
     
 }

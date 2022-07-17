@@ -10,9 +10,11 @@ import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
 import com.kredditme.abstractentities.CustomPredicate;
 import com.kredditme.interfaces.CrowdFundingInterface;
+import com.kredditme.pojo.CrowdFundingResponsePojo;
 import com.kredditme.utilities.IppmsUtils;
 import com.kredditme.utilities.RestCall;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
@@ -36,12 +38,14 @@ public class CrowdFundingService implements CrowdFundingInterface {
     private static String CROWDFUNDING_PAYMENT_LINK = "https://kreddit.me/pay/crowdfunding/";
 
     @Override
-    public Response create(CrowdFundingCreation crowdFunding, String token) {
+    public CrowdFundingResponsePojo create(CrowdFundingCreation crowdFunding, String token) {
         
-        Response resp = new Response();
+        CrowdFundingResponsePojo resp = new CrowdFundingResponsePojo();
         JSONObject js = new JSONObject();
+        JSONObject body = new JSONObject();
         try {
-            js = new JSONObject(restCall.authenticate(token));
+            body.put("token", token);
+            js = new JSONObject(restCall.executeRequest(body));
         } catch (JSONException | IOException ex) {
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,12 +71,13 @@ public class CrowdFundingService implements CrowdFundingInterface {
         
         
         if(IppmsUtils.isNotNull(crowdFunding.getImage())){
-            cFunding.setImage(crowdFunding.getImage());
+            cFunding.setImage(Base64.getDecoder().decode(crowdFunding.getImage()));
         }
         this.genericService.saveObject(cFunding);
         
         resp.setResponseCode("00");
         resp.setResponseMessage("Created Successfully!");
+        resp.setPaymentLink(link);
         
         return resp;
     }
@@ -83,8 +88,10 @@ public class CrowdFundingService implements CrowdFundingInterface {
         Response resp = new Response();
         CrowdFunding cF = new CrowdFunding();
         JSONObject js = new JSONObject();
+        JSONObject body = new JSONObject();
         try {
-            js = new JSONObject(restCall.authenticate(token));
+            body.put("token", token);
+            js = new JSONObject(restCall.executeRequest(body));
         } catch (JSONException | IOException ex) {
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
         }

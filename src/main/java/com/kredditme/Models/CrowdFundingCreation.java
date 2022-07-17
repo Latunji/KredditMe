@@ -28,7 +28,7 @@ public class CrowdFundingCreation {
     
     private String description;
     
-    protected byte[] image;
+    private String image;
     
     private double amount;
     

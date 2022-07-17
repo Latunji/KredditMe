@@ -92,7 +92,44 @@ public class RestCall {
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Authorization", token);
             connection.setDoOutput(true);
+            JSONObject js = new JSONObject();
+            
+            String dataToSend = js.toString();
            
+            BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder myResponse = new StringBuilder();
+            String my_response;
+            while ((my_response = rd.readLine()) != null) {
+                myResponse.append(my_response);
+            }
+           // System.out.println("dataReceived: "+myResponse.toString());
+            return myResponse.toString();
+        } catch (IOException e) {
+            System.out.println(e.toString());
+            return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+    }
+      
+      
+      public String executeRequest(JSONObject js) throws JSONException, IOException {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL("https://kreditme.herokuapp.com/api/v1/get_user_with_token");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+            String dataToSend = js.toString();
+            //System.out.println("dataToSend: "+dataToSend + "url: "+endPoint);
+           // JSONObject requestObj = new JSONObject();
+            try (OutputStream wr = connection.getOutputStream()){
+                byte[] in = dataToSend.getBytes(StandardCharsets.UTF_8);
+                wr.write(in, 0, in.length);
+            }
             BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder myResponse = new StringBuilder();
             String my_response;
