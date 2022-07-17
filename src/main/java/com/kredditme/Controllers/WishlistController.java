@@ -41,7 +41,7 @@ public class WishlistController {
     @Autowired
     WishlistService apiService;
 
-    @PostMapping(value = "/item/create", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/item/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> createItem(@RequestHeader("Authorization") String token, @RequestParam("name") String name, @RequestParam("icon") String icon,
             @RequestParam("amount") Double amount) {
         return new ResponseEntity<>(apiService.createItem(name, icon, amount, token), HttpStatus.OK);
@@ -52,12 +52,12 @@ public class WishlistController {
         return new ResponseEntity<>(apiService.getItems(), HttpStatus.OK);
     }
     
-    @PostMapping(value = "/create/{userId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WishlistResponse> createWishlist(@RequestHeader("Authorization") String token, @RequestBody WishlistPojo wishList) {
         return new ResponseEntity<>(apiService.createWishlist(wishList, token), HttpStatus.OK);
     }
     
-    @PostMapping(value = "/getByPaymentLink", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getByPaymentLink", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Wishlist>> getWishlistByPaymentLink(@RequestHeader("Authorization") String token, @RequestParam("paymentLink") String link) {
         return new ResponseEntity<>(apiService.getWishlistByPaymentLink(link, token), HttpStatus.OK);
     }
