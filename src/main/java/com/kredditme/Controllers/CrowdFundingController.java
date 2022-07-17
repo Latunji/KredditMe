@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,13 +35,13 @@ public class CrowdFundingController {
     @Autowired
     CrowdFundingService crowdFundingService;
    
-    
+    @CrossOrigin
     @RequestMapping(value = "/crowdFunding/create", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CrowdFundingResponsePojo> createCrowdFunding(@RequestHeader("Authorization") String token, @RequestBody CrowdFundingCreation crowdfunding) {
         return new ResponseEntity<>(crowdFundingService.create(crowdfunding, token), HttpStatus.OK);
     }
     
-    
+    @CrossOrigin
     @RequestMapping(value = "/crowdFunding/getByPaymentLink", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestBody PaymentLinkDto link) {
         return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link.getPaymentLink(), token), HttpStatus.OK);
