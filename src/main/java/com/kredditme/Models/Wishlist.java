@@ -44,7 +44,7 @@ public class Wishlist implements Serializable{
     private Item item;
     
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String userId;
     
     @Column(name = "payment_link", nullable = false)
     private String paymentLink;

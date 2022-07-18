@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 public class WishlistPojo {
     private List itemId;
-    private Long userId;
+    private String userId;
     private boolean self;
     private String accountNumber;
     private String bankName;

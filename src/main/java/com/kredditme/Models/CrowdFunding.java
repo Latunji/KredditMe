@@ -41,7 +41,7 @@ public class CrowdFunding implements Serializable {
 
     
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private String userId;
     
     @Column(name = "headline", nullable = false)
     private String headline;

@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 public class CrowdFundingCreation {
     
-    private Long userId;
+    private String userId;
     
     private String headline;
     
