@@ -39,7 +39,8 @@ public class CrowdFundingService implements CrowdFundingInterface {
 
     @Override
     public CrowdFundingResponsePojo create(CrowdFundingCreation crowdFunding, String token) {
-        
+        Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "CrowdFunding Request: {0}", crowdFunding);
+        Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "Token: {0}", token);
         CrowdFundingResponsePojo resp = new CrowdFundingResponsePojo();
         JSONObject js = new JSONObject();
         JSONObject body = new JSONObject();
