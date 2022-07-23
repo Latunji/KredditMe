@@ -48,8 +48,8 @@ public class CrowdFunding implements Serializable {
     @Column(name = "description")
     private String description;
     
-    @Column(name = "payment_link", nullable = false)
-    private String paymentLink;
+    @Column(name = "link_ref", nullable = false)
+    private String linkRef;
     
     @Basic(fetch=FetchType.LAZY)
     @Lob @Column(name = "image")

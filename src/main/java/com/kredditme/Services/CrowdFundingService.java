@@ -35,7 +35,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
     @Autowired
     RestCall restCall;
     
-    private static String CROWDFUNDING_PAYMENT_LINK = "https://kreddit.me/pay/crowdfunding/";
+//    private static String CROWDFUNDING_PAYMENT_LINK = "https://kreddit.me/pay/crowdfunding/";
 
     @Override
     public CrowdFundingResponsePojo create(CrowdFundingCreation crowdFunding, String token) {
@@ -57,14 +57,14 @@ public class CrowdFundingService implements CrowdFundingInterface {
             return resp;
         }
         
-        String link = CROWDFUNDING_PAYMENT_LINK + IppmsUtils.generateUniquePayRef();
+        String link = IppmsUtils.generateUniquePayRef();
         
         CrowdFunding cFunding = new CrowdFunding();
         cFunding.setAmount(crowdFunding.getAmount());
         cFunding.setDescription(crowdFunding.getDescription());
         cFunding.setHeadline(crowdFunding.getHeadline());
         cFunding.setUserId(crowdFunding.getUserId());
-        cFunding.setPaymentLink(link);
+        cFunding.setLinkRef(link);
         cFunding.setSelf(crowdFunding.isSelf());
         cFunding.setAccountNumber(crowdFunding.getAccountNumber());
         cFunding.setBankAccountName(crowdFunding.getBankAccountName());
@@ -85,7 +85,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
 
     @Override
     public CrowdFunding getCrowdFundingByPaymentLink(String linkRef, String token) {
-        String fullLink = CROWDFUNDING_PAYMENT_LINK + linkRef;
+        String fullLink = linkRef;
         Response resp = new Response();
         CrowdFunding cF = new CrowdFunding();
         JSONObject js = new JSONObject();
