@@ -48,7 +48,7 @@ public class CrowdFundingController {
    
     @PostMapping(value = "/getByPaymentLink", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CrowdFunding> getCrowdFundingByPaymentLink(@RequestHeader("Authorization") String token, @RequestBody PaymentLinkDto link) {
-        return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link.getPaymentLink(), token), HttpStatus.OK);
+        return new ResponseEntity<>(crowdFundingService.getCrowdFundingByPaymentLink(link.getLinkRef(), token), HttpStatus.OK);
     }
     
 }

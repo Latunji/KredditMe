@@ -84,8 +84,8 @@ public class CrowdFundingService implements CrowdFundingInterface {
     }
 
     @Override
-    public CrowdFunding getCrowdFundingByPaymentLink(String paymentLink, String token) {
-        
+    public CrowdFunding getCrowdFundingByPaymentLink(String linkRef, String token) {
+        String fullLink = CROWDFUNDING_PAYMENT_LINK + linkRef;
         Response resp = new Response();
         CrowdFunding cF = new CrowdFunding();
         JSONObject js = new JSONObject();
@@ -105,7 +105,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
         
         try {
             cF = this.genericService.loadObjectWithSingleCondition(CrowdFunding.class, new CustomPredicate("paymentLink",
-                    paymentLink));
+                    fullLink));
         } catch (IllegalAccessException | InstantiationException ex) {
             
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);

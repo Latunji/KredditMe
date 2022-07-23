@@ -18,6 +18,6 @@ import lombok.Setter;
 @Setter
 public class PaymentLinkDto {
     
-    private String paymentLink;
+    private String linkRef;
     
 }
