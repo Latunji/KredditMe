@@ -47,7 +47,7 @@ public class WishlistController {
         return new ResponseEntity<>(apiService.createItem(name, icon, amount, token), HttpStatus.OK);
     }
     
-    @GetMapping(value = "/item/get", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/item/get", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Item>> getItems() {
         return new ResponseEntity<>(apiService.getItems(), HttpStatus.OK);
     }
@@ -57,7 +57,7 @@ public class WishlistController {
         return new ResponseEntity<>(apiService.createWishlist(wishList, token), HttpStatus.OK);
     }
     
-    @PostMapping(value = "/getByPaymentLink", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/getByLinkRef", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Wishlist>> getWishlistByPaymentLink(@RequestHeader("Authorization") String token, @RequestParam("paymentLink") String link) {
         return new ResponseEntity<>(apiService.getWishlistByPaymentLink(link, token), HttpStatus.OK);
     }

@@ -39,7 +39,7 @@ public class WishlistService implements WishlistInterface {
     @Autowired
     RestCall restCall;
 
-    private static String WISHLIST_PAYMENT_LINK = "https://kreddit.me/pay/wishlist/";
+//    private static String WISHLIST_PAYMENT_LINK = "https://kreddit.me/pay/wishlist/";
 
     @Override
     public Response createItem(String name, String icon, Double amount, String token) {
@@ -99,7 +99,7 @@ public class WishlistService implements WishlistInterface {
 
     @Override
     public WishlistResponse createWishlist(WishlistPojo wishlist, String token) {
-        String link = WISHLIST_PAYMENT_LINK + IppmsUtils.generateUniquePayRef();
+        String link = IppmsUtils.generateUniquePayRef();
         WishlistResponse resp = new WishlistResponse();
         
         JSONObject js = new JSONObject();
@@ -123,7 +123,7 @@ public class WishlistService implements WishlistInterface {
                 w = (Long) wishlist.getItemId().get(i);
                 wish.setItem(this.genericService.loadObjectById(Item.class, w));
                 wish.setUserId(wishlist.getUserId());
-                wish.setPaymentLink(link);
+                wish.setLinkRef(link);
                 wish.setSelf(wishlist.isSelf());
                 wish.setAccountNumber(wishlist.getAccountNumber());
                 wish.setBankAccountName(wishlist.getBankAccountName());
@@ -132,7 +132,7 @@ public class WishlistService implements WishlistInterface {
 
                 resp.setResponseCode("00");
                 resp.setResponseMessage("Wishlist Created Successfully");
-                resp.setPaymentLink(link);
+                resp.setLinkRef(link);
                 
             }
         } catch (DataAccessException | InstantiationException | IllegalAccessException ex) {
@@ -161,7 +161,7 @@ public class WishlistService implements WishlistInterface {
         }
         
         wish = this.genericService.loadAllObjectsWithSingleCondition(Wishlist.class, 
-                new CustomPredicate("paymentLink", link), "name");
+                new CustomPredicate("linkRef", link), "name");
         
         return wish;
     }

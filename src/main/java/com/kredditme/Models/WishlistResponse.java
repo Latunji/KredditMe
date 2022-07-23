@@ -19,5 +19,5 @@ import lombok.Setter;
 public class WishlistResponse {
     private String responseCode;
     private String responseMessage;
-    private String paymentLink;
+    private String linkRef;
 }

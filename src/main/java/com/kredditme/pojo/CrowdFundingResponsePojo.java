@@ -20,6 +20,6 @@ public class CrowdFundingResponsePojo {
     
     private String responseCode;
     private String responseMessage;
-    private String paymentLink;
+    private String linkRef;
     
 }

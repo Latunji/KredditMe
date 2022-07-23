@@ -78,7 +78,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
         
         resp.setResponseCode("00");
         resp.setResponseMessage("Created Successfully!");
-        resp.setPaymentLink(link);
+        resp.setLinkRef(link);
         
         return resp;
     }
@@ -104,7 +104,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
         }
         
         try {
-            cF = this.genericService.loadObjectWithSingleCondition(CrowdFunding.class, new CustomPredicate("paymentLink",
+            cF = this.genericService.loadObjectWithSingleCondition(CrowdFunding.class, new CustomPredicate("linkRef",
                     fullLink));
         } catch (IllegalAccessException | InstantiationException ex) {
             
