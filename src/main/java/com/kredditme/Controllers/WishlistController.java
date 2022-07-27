@@ -44,7 +44,14 @@ public class WishlistController {
     @PostMapping(value = "/item/create", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Response> createItem(@RequestHeader("Authorization") String token, @RequestParam("name") String name, @RequestParam("icon") String icon,
             @RequestParam("amount") Double amount) {
-        return new ResponseEntity<>(apiService.createItem(name, icon, amount, token), HttpStatus.OK);
+        return new ResponseEntity<>(apiService.createItem(name, icon, token), HttpStatus.OK);
+    }
+    
+    
+    @PostMapping(value = "/wishlist/submitItem", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response> submitItem(@RequestHeader("Authorization") String token, @RequestParam("name") String name, @RequestParam("icon") String icon,
+            @RequestParam("amount") Double amount) {
+        return new ResponseEntity<>(apiService.createItem(name, icon, token), HttpStatus.OK);
     }
     
     @GetMapping(value = "/item/get", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -9,6 +9,9 @@ import com.kredditme.Models.CrowdFunding;
 import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
 import com.kredditme.pojo.CrowdFundingResponsePojo;
+import com.kredditme.pojo.PaymentDto;
+import com.kredditme.pojo.PaymentResponseDto;
+import com.kredditme.pojo.VerifyPaymentDto;
 
 /**
  *
@@ -19,4 +22,9 @@ public interface CrowdFundingInterface {
     CrowdFundingResponsePojo create(CrowdFundingCreation crowdFunding, String token);
     
     CrowdFunding getCrowdFundingByPaymentLink(String paymentLink, String token);
+    
+    PaymentResponseDto initializePayment(PaymentDto payment);
+    
+    Response verifyPayment(VerifyPaymentDto payment);
+
 }

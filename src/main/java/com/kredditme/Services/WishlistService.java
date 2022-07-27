@@ -42,7 +42,7 @@ public class WishlistService implements WishlistInterface {
 //    private static String WISHLIST_PAYMENT_LINK = "https://kreddit.me/pay/wishlist/";
 
     @Override
-    public Response createItem(String name, String icon, Double amount, String token) {
+    public Response createItem(String name, String icon, String token) {
         Item item = new Item();
         Response resp = new Response();
         
@@ -70,7 +70,6 @@ public class WishlistService implements WishlistInterface {
             return resp;
         }
         if (IppmsUtils.isNotNullOrEmpty(item.getName())) {
-            item.setAmount(amount);
             item.setIcon(icon);
             item.setName(name);
 

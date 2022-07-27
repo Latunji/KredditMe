@@ -18,8 +18,8 @@ import java.util.List;
  */
 public interface WishlistInterface {
     
-    Response createItem(String name, String icon, Double amount, String token);
-    
+    Response createItem(String name, String icon, String token);
+   
     List<Item> getItems();
     
     WishlistResponse createWishlist(WishlistPojo wishlist, String token);

@@ -8,9 +8,13 @@ package com.kredditme.Services;
 import com.kredditme.Models.CrowdFunding;
 import com.kredditme.Models.CrowdFundingCreation;
 import com.kredditme.Models.Response;
+import com.kredditme.Models.Transaction;
 import com.kredditme.abstractentities.CustomPredicate;
 import com.kredditme.interfaces.CrowdFundingInterface;
 import com.kredditme.pojo.CrowdFundingResponsePojo;
+import com.kredditme.pojo.PaymentDto;
+import com.kredditme.pojo.PaymentResponseDto;
+import com.kredditme.pojo.VerifyPaymentDto;
 import com.kredditme.utilities.IppmsUtils;
 import com.kredditme.utilities.RestCall;
 import java.io.IOException;
@@ -112,6 +116,82 @@ public class CrowdFundingService implements CrowdFundingInterface {
         }
         
         return cF;
+    }
+
+    @Override
+    public PaymentResponseDto initializePayment(PaymentDto payment) {
+        
+        PaymentResponseDto paymentResponse = new PaymentResponseDto();
+        String js = null;
+        JSONObject response = new JSONObject();
+        try {
+            js = restCall.executeRequest(payment.getEmail(), payment.getAmount());
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                if(js != null){
+                    response = new JSONObject(js);
+                    paymentResponse.setAuthUrl(response.getJSONObject("data").get("authorization_url").toString());
+                    paymentResponse.setAccessCode(response.getJSONObject("data").get("access_code").toString());
+                    paymentResponse.setReference(response.getJSONObject("data").get("reference").toString());
+                    paymentResponse.setResponseCode("00");
+                    paymentResponse.setResponseDesc("Succcessful");
+                }
+                else{
+                    paymentResponse.setResponseCode("96");
+                    paymentResponse.setResponseDesc("Error Occured");
+                }
+                return paymentResponse;
+    }
+
+    @Override
+    public Response verifyPayment(VerifyPaymentDto payment) {
+        
+        Response resp = new Response();
+        
+        String js = null;
+        JSONObject response = new JSONObject();
+        Transaction transaction = new Transaction();
+        CrowdFunding cF = new CrowdFunding();
+        String amount;
+        try {
+            js = restCall.executeVerifyPayment(payment.getReference());
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                if(js != null){
+                    response = new JSONObject(js);
+                    amount = response.getJSONObject("data").get("amount").toString();
+                    transaction.setAmount(amount);
+                    transaction.setTransactionDate(response.getJSONObject("data").get("transaction_date").toString());
+                    transaction.setReference(response.getJSONObject("data").get("reference").toString());
+                    transaction.setChannel(response.getJSONObject("data").get("channel").toString());
+                    transaction.setUserId(payment.getUserId());
+                    
+                    this.genericService.saveObject(transaction);
+                    
+            try {
+                cF = this.genericService.loadObjectWithSingleCondition(CrowdFunding.class,
+                        new CustomPredicate("linkRef", payment.getLinkRef()));
+            } catch (IllegalAccessException | InstantiationException ex) {
+                Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(IppmsUtils.isNotNull(cF)){
+                cF.setAmountPaid(cF.getAmount() + Double.valueOf(amount));
+                this.genericService.saveOrUpdate(cF);
+            }
+                    
+                    resp.setResponseCode("00");
+                    resp.setResponseMessage("Succcessful");
+                }
+                else{
+                    resp.setResponseCode("96");
+                    resp.setResponseMessage("Error Occurred");
+                }
+                return resp;
     }
     
 }
