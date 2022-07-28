@@ -179,9 +179,9 @@ public class WishlistService implements WishlistInterface {
         JSONObject response = new JSONObject();
         try {
             js = restCall.executeRequest(payment.getEmail(), payment.getAmount());
-            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
+            Logger.getLogger(WishlistService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
         } catch (JSONException | IOException ex) {
-            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WishlistService.class.getName()).log(Level.SEVERE, null, ex);
         }
                 if(js != null){
                     response = new JSONObject(js);
@@ -230,7 +230,7 @@ public class WishlistService implements WishlistInterface {
                 cF = this.genericService.loadObjectWithSingleCondition(Wishlist.class,
                         new CustomPredicate("linkRef", payment.getLinkRef()));
             } catch (IllegalAccessException | InstantiationException ex) {
-                Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(WishlistService.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             if(IppmsUtils.isNotNull(cF)){
