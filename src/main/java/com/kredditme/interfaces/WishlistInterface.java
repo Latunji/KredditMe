@@ -9,7 +9,11 @@ import com.kredditme.Models.Item;
 import com.kredditme.Models.Response;
 import com.kredditme.Models.Wishlist;
 import com.kredditme.Models.WishlistResponse;
+import com.kredditme.pojo.PaymentDto;
+import com.kredditme.pojo.PaymentResponseDto;
+import com.kredditme.pojo.VerifyPaymentDto;
 import com.kredditme.pojo.WishlistPojo;
+import com.kredditme.pojo.WishlistVerifyPaymentDto;
 import java.util.List;
 
 /**
@@ -23,6 +27,10 @@ public interface WishlistInterface {
     List<Item> getItems();
     
     WishlistResponse createWishlist(WishlistPojo wishlist, String token);
+    
+    PaymentResponseDto initializePayment(PaymentDto payment);
+    
+    Response verifyPayment(WishlistVerifyPaymentDto payment);
     
     List<Wishlist> getWishlistByPaymentLink(String link, String token);
     

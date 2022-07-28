@@ -5,6 +5,7 @@
  */
 package com.kredditme.pojo;
 
+import java.util.List;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,9 +17,9 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class VerifyPaymentDto {
+public class WishlistVerifyPaymentDto {
     
+    private List itemId;
     private String reference;
     private String linkRef;
-    
 }

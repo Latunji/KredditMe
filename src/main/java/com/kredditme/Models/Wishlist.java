@@ -52,6 +52,9 @@ public class Wishlist implements Serializable{
     @Column(name = "paid")
     private boolean paid;
     
+    @Column(name = "amount_paid", columnDefinition = "numeric(15,2) default '0.00'")
+    private double amountPaid;
+    
     @Column(name = "self")
     private boolean self;
     

@@ -168,7 +168,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
                     transaction.setTransactionDate(response.getJSONObject("data").get("transaction_date").toString());
                     transaction.setReference(response.getJSONObject("data").get("reference").toString());
                     transaction.setChannel(response.getJSONObject("data").get("channel").toString());
-                    transaction.setUserId(payment.getUserId());
+                    transaction.setUserId(payment.getLinkRef());
                     
                     this.genericService.saveObject(transaction);
                     

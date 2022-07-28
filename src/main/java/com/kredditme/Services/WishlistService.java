@@ -5,8 +5,10 @@
  */
 package com.kredditme.Services;
 
+import com.kredditme.Models.CrowdFunding;
 import com.kredditme.Models.Item;
 import com.kredditme.Models.Response;
+import com.kredditme.Models.Transaction;
 import com.kredditme.Models.Wishlist;
 import com.kredditme.Models.WishlistResponse;
 import com.kredditme.abstractentities.CustomPredicate;
@@ -21,6 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import com.kredditme.interfaces.WishlistInterface;
+import com.kredditme.pojo.PaymentDto;
+import com.kredditme.pojo.PaymentResponseDto;
+import com.kredditme.pojo.VerifyPaymentDto;
+import com.kredditme.pojo.WishlistVerifyPaymentDto;
 import com.kredditme.utilities.RestCall;
 import java.io.IOException;
 import org.json.JSONException;
@@ -163,6 +169,83 @@ public class WishlistService implements WishlistInterface {
                 new CustomPredicate("linkRef", link), "name");
         
         return wish;
+    }
+    
+    @Override
+    public PaymentResponseDto initializePayment(PaymentDto payment) {
+        
+        PaymentResponseDto paymentResponse = new PaymentResponseDto();
+        String js = null;
+        JSONObject response = new JSONObject();
+        try {
+            js = restCall.executeRequest(payment.getEmail(), payment.getAmount());
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                if(js != null){
+                    response = new JSONObject(js);
+                    paymentResponse.setAuthUrl(response.getJSONObject("data").get("authorization_url").toString());
+                    paymentResponse.setAccessCode(response.getJSONObject("data").get("access_code").toString());
+                    paymentResponse.setReference(response.getJSONObject("data").get("reference").toString());
+                    paymentResponse.setResponseCode("00");
+                    paymentResponse.setResponseDesc("Succcessful");
+                }
+                else{
+                    paymentResponse.setResponseCode("96");
+                    paymentResponse.setResponseDesc("Error Occured");
+                }
+                
+                return paymentResponse;
+    }
+    
+    @Override
+    public Response verifyPayment(WishlistVerifyPaymentDto payment) {
+        
+        Response resp = new Response();
+        
+        String js = null;
+        JSONObject response = new JSONObject();
+        Transaction transaction = new Transaction();
+        Wishlist cF = new Wishlist();
+        String amount;
+        try {
+            js = restCall.executeVerifyPayment(payment.getReference());
+            Logger.getLogger(WishlistService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(WishlistService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                if(js != null){
+                    response = new JSONObject(js);
+                    amount = response.getJSONObject("data").get("amount").toString();
+                    transaction.setAmount(amount);
+                    transaction.setTransactionDate(response.getJSONObject("data").get("transaction_date").toString());
+                    transaction.setReference(response.getJSONObject("data").get("reference").toString());
+                    transaction.setChannel(response.getJSONObject("data").get("channel").toString());
+                    transaction.setUserId(payment.getLinkRef());
+                    
+                    this.genericService.saveObject(transaction);
+                    
+            try {
+                cF = this.genericService.loadObjectWithSingleCondition(Wishlist.class,
+                        new CustomPredicate("linkRef", payment.getLinkRef()));
+            } catch (IllegalAccessException | InstantiationException ex) {
+                Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(IppmsUtils.isNotNull(cF)){
+                cF.setAmountPaid(cF.getAmountPaid()+ Double.valueOf(amount));
+                this.genericService.saveOrUpdate(cF);
+            }
+                    
+                    resp.setResponseCode("00");
+                    resp.setResponseMessage("Succcessful");
+                }
+                else{
+                    resp.setResponseCode("96");
+                    resp.setResponseMessage("Error Occurred");
+                }
+                return resp;
     }
 }
 

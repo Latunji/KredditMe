@@ -10,7 +10,11 @@ import com.kredditme.Models.Response;
 import com.kredditme.Models.Wishlist;
 import com.kredditme.Models.WishlistResponse;
 import com.kredditme.Services.WishlistService;
+import com.kredditme.pojo.PaymentDto;
+import com.kredditme.pojo.PaymentResponseDto;
+import com.kredditme.pojo.VerifyPaymentDto;
 import com.kredditme.pojo.WishlistPojo;
+import com.kredditme.pojo.WishlistVerifyPaymentDto;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +71,16 @@ public class WishlistController {
     @PostMapping(value = "/getByLinkRef", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Wishlist>> getWishlistByPaymentLink(@RequestHeader("Authorization") String token, @RequestParam("paymentLink") String link) {
         return new ResponseEntity<>(apiService.getWishlistByPaymentLink(link, token), HttpStatus.OK);
+    }
+    
+     @PostMapping(value = "/initializePayment", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PaymentResponseDto> initializePayment(@RequestHeader("Authorization") String token, @RequestBody PaymentDto payment) {
+        return new ResponseEntity<>(apiService.initializePayment(payment), HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/verifyPayment", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Response> verifyPayment(@RequestHeader("Authorization") String token, @RequestBody WishlistVerifyPaymentDto payment) {
+        return new ResponseEntity<>(apiService.verifyPayment(payment), HttpStatus.OK);
     }
 
     
