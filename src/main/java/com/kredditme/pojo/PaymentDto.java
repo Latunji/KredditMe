@@ -20,7 +20,6 @@ import lombok.Setter;
 public class PaymentDto {
     
     private String email;
-    private String userId;
     private String amount;
     
 }
