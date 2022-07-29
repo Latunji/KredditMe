@@ -180,6 +180,7 @@ public class WishlistService implements WishlistInterface {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("email", payment.getEmail());
             jsonObject.put("amount", payment.getAmount());
+             Logger.getLogger(WishlistService.class.getName()).log(Level.INFO, "json obj to send...{0}", jsonObject);
         try {
             js = restCall.executeInitializeRequest(jsonObject);
             Logger.getLogger(WishlistService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);

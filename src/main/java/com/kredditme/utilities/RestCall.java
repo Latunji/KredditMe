@@ -30,7 +30,7 @@ public class RestCall {
         HttpURLConnection connection = null;
         String endPoint = "https://api.paystack.co/transaction/initialize";
         try {
-            
+             Logger.getLogger(RestCall.class.getName()).log(Level.INFO, "data to SEND rESTCALL", jsonObject);
             URL url = new URL(endPoint);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
