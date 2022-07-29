@@ -177,8 +177,11 @@ public class WishlistService implements WishlistInterface {
         PaymentResponseDto paymentResponse = new PaymentResponseDto();
         String js = null;
         JSONObject response = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", payment.getEmail());
+            jsonObject.put("amount", payment.getAmount());
         try {
-            js = restCall.executeRequest(payment.getEmail(), payment.getAmount());
+            js = restCall.executeInitializeRequest(jsonObject);
             Logger.getLogger(WishlistService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
         } catch (JSONException | IOException ex) {
             Logger.getLogger(WishlistService.class.getName()).log(Level.SEVERE, null, ex);
