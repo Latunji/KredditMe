@@ -5,6 +5,7 @@
  */
 package com.kredditme.utilities;
 
+import com.kredditme.Services.CrowdFundingService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -23,13 +26,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestCall {
     
-     public String executeRequest(String email, String amount) throws JSONException, IOException {
+     public String executeInitializeRequest(JSONObject jsonObject) throws JSONException, IOException {
         HttpURLConnection connection = null;
         String endPoint = "https://api.paystack.co/transaction/initialize";
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("email", email);
-            jsonObject.put("amount", amount);
+            
             URL url = new URL(endPoint);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -52,7 +53,7 @@ public class RestCall {
            // System.out.println("dataReceived: "+myResponse.toString());
             return myResponse.toString();
         } catch (IOException e) {
-            System.out.println(e.toString());
+            Logger.getLogger(RestCall.class.getName()).log(Level.INFO, "Paystack Error...{0}", e.toString());
             return null;
         } finally {
             if (connection != null) {
