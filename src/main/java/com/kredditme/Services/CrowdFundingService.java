@@ -126,7 +126,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
         JSONObject response = new JSONObject();
         try {
             js = restCall.executeRequest(payment.getEmail(), payment.getAmount());
-            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "verify payment output...{0}", js);
+            Logger.getLogger(CrowdFundingService.class.getName()).log(Level.INFO, "initialize payment output...{0}", js);
         } catch (JSONException | IOException ex) {
             Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
         }
