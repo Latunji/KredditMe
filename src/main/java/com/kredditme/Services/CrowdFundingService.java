@@ -183,7 +183,7 @@ public class CrowdFundingService implements CrowdFundingInterface {
                 Logger.getLogger(CrowdFundingService.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if(IppmsUtils.isNotNull(cF)){
+            if(IppmsUtils.isNotNull(cF.getHeadline())){
                 cF.setAmountPaid(cF.getAmount() + Double.valueOf(amount));
                 this.genericService.saveOrUpdate(cF);
             }
